@@ -19,6 +19,10 @@ on:
 jobs:
   deploy-job:
     runs-on: ubuntu-latest
+    
+    environment:
+      name: ${{inputs.deployment-slot}}
+      url: ${{steps.deploy-azure.outputs.webapp-url}}
 
     steps:
       - name: Download artifact
@@ -27,4 +31,10 @@ jobs:
           name: ${{inputs.package-name}}
 
       - name: Deploy to Azure App Service
-        run: echo "Value of secret is - ${{secrets.azure-profile == 'Placeholder'}}"
+        uses: azure/webapps-deploy@v3
+        id: deploy-azure
+        with:
+          app-name: ${{inputs.app-name}}
+          slot-name: ${{inputs.deployment-slot}}
+          package: .
+          publish-profile: ${{secrets.azure-profile}}
