@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("training-gh-200")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80533eeb465e577f458f4a1109d21bcd380e6b2d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1e240d0dc2eafb636d9bb2bbc00eb5dcdcbb2866")]
 [assembly: System.Reflection.AssemblyProductAttribute("training-gh-200")]
 [assembly: System.Reflection.AssemblyTitleAttribute("training-gh-200")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

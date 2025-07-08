@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Mes Developpements\\Avanade\\training-gh-200\\training-gh-200.csproj",
+      "projectUniqueName": "E:\\Mes Developpements\\Avanade\\training-gh-200\\src\\training-gh-200.csproj",
       "projectName": "training-gh-200",
-      "projectPath": "E:\\Mes Developpements\\Avanade\\training-gh-200\\training-gh-200.csproj",
+      "projectPath": "E:\\Mes Developpements\\Avanade\\training-gh-200\\src\\training-gh-200.csproj",
       "packagesPath": "C:\\Users\\Morph\\.nuget\\packages\\",
-      "outputPath": "E:\\Mes Developpements\\Avanade\\training-gh-200\\obj\\",
+      "outputPath": "E:\\Mes Developpements\\Avanade\\training-gh-200\\src\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
