@@ -3,7 +3,7 @@ name: Build and deploy my app
 on:
   push:
     paths:
-      - src
+      - 'src/**'
   workflow_dispatch:
 
 permissions:
