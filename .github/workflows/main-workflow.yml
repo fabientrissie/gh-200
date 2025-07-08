@@ -1,0 +1,30 @@
+name: Build and deploy my app
+
+on:
+  push:
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  reusable-build-job:
+
+    uses: ./.github/workflows/reusable-build.yml
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  reusable-deploy-job:
+    needs: reusable-build-job
+
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      package-name: .net-app
+      app-name: azureapp1
+      deployment-slot: production
+    secrets:
+      azure-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        
+    
