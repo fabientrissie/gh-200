@@ -2,8 +2,8 @@ name: Build and deploy my app
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - src
   workflow_dispatch:
 
 permissions:
@@ -29,13 +29,25 @@ jobs:
         run: cd src && dotnet build --configuration Release
 
       - name: Publish code
-        run: dotnet publish -c Release --property:PublishDir="${{env.DOTNET_ROOT}}/myapp"
+        run: cd src && dotnet publish -c Release --property:PublishDir="${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4.6.2
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Create win client archive
+        run: |
+          cd ${{env.DOTNET_ROOT}}/myapp && zip -r myapp.zip *
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2.3.2
+        with:
+          tag_name: ${{github.ref_name}}
+          files: ${{env.DOTNET_ROOT}}/myapp/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-job:
     runs-on: ubuntu-latest
