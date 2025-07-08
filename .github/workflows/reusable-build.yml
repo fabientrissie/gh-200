@@ -3,7 +3,7 @@ name: Reusable workflow to build app
 on:
   workflow_call:
     secrets:
-      GITHUB_TOKEN:
+      github-token:
         required: true
 
 jobs:
@@ -42,4 +42,4 @@ jobs:
           tag_name: ${{github.ref_name}}
           files: ${{env.DOTNET_ROOT}}/myapp/*.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.github-token }}
