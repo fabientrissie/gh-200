@@ -1,4 +1,4 @@
-name: Build and deploy my app
+name: Build and deploy my app with reusable
 
 on:
   push:
