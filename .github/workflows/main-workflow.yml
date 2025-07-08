@@ -22,7 +22,7 @@ jobs:
     uses: ./.github/workflows/reusable-deploy.yml
     with:
       package-name: .net-app
-      app-name: azureapp1
+      app-name: gh-200-test
       deployment-slot: production
     secrets:
       azure-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
