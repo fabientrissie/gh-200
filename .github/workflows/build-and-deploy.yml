@@ -1,0 +1,58 @@
+name: Build and deploy my app
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup .net
+        uses: actions/setup-dotnet@v3.4.2
+        with:
+          dotnet-version: '9.x'
+
+      - name: Build code
+        run: dotnet build --configuration Release
+
+      - name: Publish code
+        run: dotnet publish -c Release --property:PublishDir="${{env.DOTNET_ROOT}}/myapp"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+  deploy-job:
+    runs-on: ubuntu-latest
+    needs: build-job
+
+    env:
+      package-name: .net-app
+      app-name: azureapp1
+      deployment-slot: production
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4.3.0
+        with:
+          name: ${{env.package-name}}
+
+      - name: Deploy to Azure App Service
+        run: echo "Value of secret is - ${{secrets.AZURE_PUBISH_PROFILE == 'Placeholder'}}"
+        
+    
