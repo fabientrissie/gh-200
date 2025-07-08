@@ -13,7 +13,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-//aaaazaza
 app.UseHttpsRedirection();
 
 app.UseRouting();

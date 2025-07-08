@@ -1,0 +1,64 @@
+name: Build and deploy my app
+
+on:
+  push:
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Setup .net
+        uses: actions/setup-dotnet@v3.4.2
+        with:
+          dotnet-version: '9.x'
+
+      - name: Build code
+        run: cd src && dotnet build --configuration Release
+
+      - name: Publish code
+        run: cd src && dotnet publish -c Release --property:PublishDir="${{env.DOTNET_ROOT}}/myapp"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Create win client archive
+        run: |
+          cd ${{env.DOTNET_ROOT}}/myapp && zip -r myapp.zip *
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2.3.2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{github.ref_name}}
+          files: ${{env.DOTNET_ROOT}}/myapp/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  reusable-deploy-job:
+    needs: build-job
+
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      package-name: .net-app
+      app-name: azureapp1
+      deployment-slot: production
+    secrets:
+      azure-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        
+    
