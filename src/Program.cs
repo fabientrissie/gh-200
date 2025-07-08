@@ -13,8 +13,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
-//test fdffd
 app.UseHttpsRedirection();
 
 app.UseRouting();
